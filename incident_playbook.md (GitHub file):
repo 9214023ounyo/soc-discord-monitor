@@ -1,0 +1,35 @@
+# 🚨 SOC Incident Playbook
+
+## 1. Detection Example
+sHIGH BRUTE FORCE: 9 SSH fails TOR IP 185.230.122.10 CRITICAL PII: SSN 123-45-6789 exposed in logs
+
+
+
+
+
+## 2. Why It Matters
+| Alert | Threat | Impact |
+|-------|--------|--------|
+| **Brute Force** | Attacker guessing passwords via TOR | Account compromise |
+| **PII Exposure** | SSN/CC in logs | Identity theft, fines |
+
+## 3. Triage & Response
+BRUTE FORCE (9+ fails TOR):
+
+grep "185.230.122.10" /var/log/auth.log
+fail2ban-client set sshd banip 185.230.122.10
+Alert: "IP blocked - monitor for lateral movement"
+PII EXPOSURE (SSN/CC):
+
+grep -r "123-45-6789" /var/log/
+Rotate affected credentials
+DLP scan: splunk search "SSN OR CC" | stats count
+
+
+
+
+## 4. Escalation Matrix
+< 5min: Analyst triage 5-30min: Senior SOC
+
+30min: Incident Response
+
